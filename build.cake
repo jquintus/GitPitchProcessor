@@ -36,7 +36,7 @@ Task("Publish-AppVeyor")
 .IsDependentOn("Build")
 .WithCriteria(BuildSystem.IsRunningOnAppVeyor)
 .Does(()=> {
-    var output = "src/gpp/bin/" + configuration + "/" + framework + "/gpp.dll";
+    var output = "src/GitPitchProcessor/bin/" + configuration + "/" + framework + "/GitPitchProcessor.dll";
     BuildSystem.AppVeyor.UploadArtifact(output);
 });
 
