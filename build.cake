@@ -16,15 +16,20 @@ Task("Clean")
     DotNetCoreClean(slnFile);
 });
 
+Task("Restore")
+.Does(()=> {
+    DotNetCoreRestore(slnFile);
+});
+
 Task("Build")
-.IsDependentOn("Clean")
+.IsDependentOn("Restore")
 .Does(()=> {
     var buildSettings = new DotNetCoreBuildSettings
      {
          Framework = framework,
          Configuration = configuration,
      };
-    DotNetCoreBuild(slnFile);
+    DotNetCoreBuild(slnFile, buildSettings);
 });
 
 Task("Publish-AppVeyor")
