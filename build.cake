@@ -5,7 +5,7 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var framework = Argument("framework", "netcoreapp2.0");
-var slnFile = "src/gpp.sln";
+var slnFile = "src/GitPitchProcessor.sln";
 
 ///////////////////////////////////////////////////////////////////////////////
 // TASKS
