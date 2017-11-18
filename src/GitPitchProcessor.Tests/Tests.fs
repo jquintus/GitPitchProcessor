@@ -7,4 +7,4 @@ open Xunit
 
 [<Fact>]
 let ``parse "hello" return "hello"`` () =
-    test <@ parse "hello" = "hello world" @>
+    test <@ parse "hello" = "hello`" @>
