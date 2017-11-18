@@ -1,12 +1,10 @@
 module Tests
 
+open Lib
 open System
+open Swensen.Unquote
 open Xunit
 
 [<Fact>]
-let ``My test`` () =
-    Assert.True(true)
-
-//[<Fact>]
-//let ``My failing test`` () =
-//    Assert.False(true)
+let ``parse "hello" return "hello"`` () =
+    test <@ parse "hello" = "hello world" @>
