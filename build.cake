@@ -17,8 +17,9 @@ Task("Clean")
 });
 
 Task("Restore")
+.IsDependentOn("Clean")
 .Does(()=> {
-    DotNetCoreRestore(slnFile);
+    // DotNetCoreRestore(slnFile);
 });
 
 Task("Build")
@@ -32,6 +33,24 @@ Task("Build")
     DotNetCoreBuild(slnFile, buildSettings);
 });
 
+Task("Test")
+.IsDependentOn("Build")
+.Does(() => {
+         
+    var settings = new DotNetCoreTestSettings
+    {
+         Configuration = configuration,
+         Framework = framework,
+         NoBuild = true,
+    };
+    
+    var projects = GetFiles("./src/**/*.Tests.fsproj");
+    foreach (var project in projects)
+    {
+        DotNetCoreTest(project.FullPath, settings);
+    }
+});
+
 Task("Publish-AppVeyor")
 .IsDependentOn("Build")
 .WithCriteria(BuildSystem.IsRunningOnAppVeyor)
@@ -41,6 +60,7 @@ Task("Publish-AppVeyor")
 });
 
 Task("Publish")
+.IsDependentOn("Test")
 .IsDependentOn("Publish-AppVeyor");
 
 Task("Default")
