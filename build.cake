@@ -5,7 +5,7 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var framework = Argument("framework", "netcoreapp2.0");
-var slnFile = "src/GitPitchProcessor.sln";
+var slnFile = "src/.";
 
 ///////////////////////////////////////////////////////////////////////////////
 // TASKS
@@ -19,7 +19,7 @@ Task("Clean")
 Task("Restore")
 .IsDependentOn("Clean")
 .Does(()=> {
-    // DotNetCoreRestore(slnFile);
+    DotNetCoreRestore(slnFile);
 });
 
 Task("Build")
@@ -27,9 +27,11 @@ Task("Build")
 .Does(()=> {
     var buildSettings = new DotNetCoreBuildSettings
      {
-         Framework = framework,
-         Configuration = configuration,
+        Framework = framework,
+        Configuration = configuration,
+        ArgumentCustomization = args => args.Append($"--no-restore")
      };
+
     DotNetCoreBuild(slnFile, buildSettings);
 });
 
