@@ -1,5 +1,6 @@
 ﻿module Arguments
 open Argu
+open System
 
 type private Arguments = 
     | InputFile of path:string
@@ -17,7 +18,9 @@ type ParsedArguments = {
     }
 
 let parseArgs argv = 
-    let argParser = ArgumentParser.Create<Arguments>(programName = "GitPitchProcessor")
+    let errorHandler = ProcessExiter(colorizer = function ErrorCode.HelpText -> None | _ -> Some ConsoleColor.Red)
+
+    let argParser = ArgumentParser.Create<Arguments>(programName = "GitPitchProcessor", errorHandler = errorHandler)
     let results = argParser.Parse argv
     let input = results.GetResult  (<@ InputFile @>, defaultValue = "GITPITCH.md")
     let output = results.GetResult (<@ OutputFile@>, defaultValue = @"assets/md/GITPITCH.md")
