@@ -1,7 +1,7 @@
 ﻿module Arguments
 open Argu
 
-type Arguments = 
+type private Arguments = 
     | InputFile of path:string
     | OutputFile of path:string
 with
