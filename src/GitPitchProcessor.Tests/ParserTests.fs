@@ -1,6 +1,7 @@
 module Tests
 
 open Parser
+open ParserTypes
 open Swensen.Unquote
 open Xunit
 
@@ -28,10 +29,10 @@ let ``parse <---?include=md/SomeFile.md>`` () =
 
 // Code IncludeTests
 [<Fact>]
-let ``parse <+++?code=src/Code.fs&lang=FSharp&title=MyTitle>`` () =
+let ``parse <+++?code=src/Code.fs&lang=FSharp&title=My Title>`` () =
     let input = 
-        @"+++?code=src/Code.fs&lang=FSharp&title=MyTitle"
-    test <@ parse input = CodeInclude { file = @"src/Code.fs"; lang = Some "FSharp"; title = Some "MyTitle" } @>
+        @"+++?code=src/Code.fs&lang=FSharp&title=My Title"
+    test <@ parse input = CodeInclude { file = @"src/Code.fs"; lang = Some "FSharp"; title = Some "My Title" } @>
 
 // Code Reference Tests
 [<Fact>]
