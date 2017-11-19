@@ -61,7 +61,24 @@ let parse (line:string) =
             None
 
     let (|CR|_|) (str:string) =
-        let rx = @"^@\s*\[\s*(?<start>\d+)\s*(-\s*(?<end>\d+))?\s*]\s*(\((?<title>.*)\))?\s*$"
+        let rx = @"
+            ^@\s*                       // Line starts with a @
+            \[\s*                       // Opening [
+            (?<start>\d+)               // Starting line number
+            \s*
+            (                           // Opening optional number
+                -\s*                    // Optional dash
+                (?<end>\d+)             // Optional ending line number
+            )?                          // Closing optional number
+            \s*]\s*                     // Closing ]
+            (
+            (                           // Opening optional title
+                \(                      // Opening (
+                (?<title>.*)            // Optional title
+                \)                      // Closing )
+            )?                          // Closing optional title
+            \s*$                        // Trailing space
+            "
         let result = Regex.Match(str, rx, RegexOptions.IgnorePatternWhitespace)
         if result.Success then
             let start =  result.Groups.["start"].Value |> parseInt
