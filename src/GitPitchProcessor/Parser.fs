@@ -62,7 +62,7 @@ let parse (line:string) =
                 || (lowerStr.StartsWith newSectionPattern)
 
         if isMatch then
-            Some (str.Substring pattern.Length)
+            Some (str.Substring newSlidePattern.Length)
         else 
             None
 
