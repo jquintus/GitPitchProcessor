@@ -94,3 +94,8 @@ let parse (line:string) =
     | PagePrefix "code=" codeIncludeStr -> codeInclude codeIncludeStr
     | CR cr -> cr
     | _ ->   Content line
+
+let parseLines inputStream = 
+    let (Input.T lines) = inputStream
+    lines
+    |> Seq.map parse

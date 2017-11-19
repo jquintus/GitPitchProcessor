@@ -20,3 +20,10 @@ type Document =
 
 let codeReference startLine endLine title =
     CodeReference { startLine = startLine; endLine = endLine; title = title }
+    
+let ci file lang title = 
+        CodeInclude { 
+            file = file
+            lang = lang
+            title = title
+        }

@@ -8,6 +8,10 @@ open Xunit
 // Helpers
 let testParse input expected = test <@ parse input = expected  @>
 
+let testParseLines lines expected = 
+    let input = Input.fromList lines
+    test <@ parseLines input  |> Seq.toList = expected  @>
+
 module ``Content Tests``=
     [<Fact>]
     let ``parse <content>`` () = testParse "content" (Content "content")
@@ -32,13 +36,6 @@ module ``Include Tests``=
         testParse input (Include @"md/SomeFile.md")
 
 module ``Code IncludeTests`` =
-    let ci file lang title = 
-            CodeInclude { 
-                file = file
-                lang = lang
-                title = title
-            }
-
     [<Fact>]
     let ``parse <+++?code=src/Code.fs&lang=FSharp&title=My Title>`` () =
         let input    = @"+++?code=src/Code.fs&lang=FSharp&title=My Title"
@@ -171,3 +168,30 @@ module ``Code Reference Tests`` =
         let input = @"@[1]"
         let expected = cr_s 1
         testParse input expected
+
+module ``parseLines Tests`` =
+    [<Fact>]
+    let ``parseLines singleLine returns single Document``() =
+        let lines = [ "some content" ]
+        let expected = [ Content "some content" ]
+        testParseLines lines expected
+
+    [<Fact>]
+    let ``parseLines no lines returns empty list``() =
+        testParseLines [ ] [ ] 
+
+    [<Fact>]
+    let ``parseLines several lines returns several docuemtns``() =
+        let lines = [ 
+            "some content";
+             "---?include=md/SomeFile.md";
+              @"+++?code=src/Code.fs";
+              @"@[1](Slide Title)"
+        ]
+        let expected = [ 
+            Content "some content";
+            Include @"md/SomeFile.md";
+            ci @"src/Code.fs" None None
+            codeReference 1 None (Some "Slide Title")
+        ]
+        testParseLines lines expected
