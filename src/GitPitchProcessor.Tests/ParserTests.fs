@@ -29,8 +29,9 @@ let ``parse <---?include=md/SomeFile.md>`` () =
 // Code IncludeTests
 [<Fact>]
 let ``parse <+++?code=src/Code.fs&lang=FSharp&title=MyTitle>`` () =
-    let input = @"+++?code=src/Code.fs&lang=FSharp&title=MyTitle"
-    test <@ parse input = CodeInclude { file = @"src/Code.fs"; lang = "FSharp"; title = "MyTitle" } @>
+    let input = 
+        @"+++?code=src/Code.fs&lang=FSharp&title=MyTitle"
+    test <@ parse input = CodeInclude { file = @"src/Code.fs"; lang = Some "FSharp"; title = Some "MyTitle" } @>
 
 // Code Reference Tests
 [<Fact>]
