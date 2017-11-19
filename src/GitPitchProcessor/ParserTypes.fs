@@ -17,3 +17,6 @@ type Document =
     | Include of FilePath
     | CodeInclude of CodeInclude
     | CodeReference of CodeReference
+
+let codeReference startLine endLine title =
+    CodeReference { startLine = startLine; endLine = endLine; title = title }
