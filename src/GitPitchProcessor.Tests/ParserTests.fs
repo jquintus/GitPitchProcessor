@@ -17,7 +17,7 @@ module ``Content Tests``=
 
     [<Fact>]
     let ``parse < ---?include=md/SomeFile.md>`` () =
-        let input = @"---?include=md/SomeFile.md"
+        let input = @" ---?include=md/SomeFile.md"
         testParse input (Content input)
  
 module ``Include Tests``=
@@ -125,12 +125,49 @@ module ``Code IncludeTests`` =
         testParse input expected
 
 module ``Code Reference Tests`` =
+    let cr startLine endLine title =
+        CodeReference {
+            startLine = startLine
+            endLine = endLine
+            title = title
+        }
+    let cr_s s = cr s None None
+    let cr_se s e = cr s (Some e) None
+    let cr_st s t = cr s None (Some t)
+    let cr_set s e t = cr s (Some e) (Some t)
+
     [<Fact>]
     let ``parse <at[1](Slide Title)>`` () = // Can't include @ in an identifier name
         let input = @"@[1](Slide Title)"
-        test <@ parse input = CodeReference { title = "Slide Title"; startLine = 1; endLine = None } @>
+        let expected = cr_st 1 "Slide Title"
+        testParse input expected
 
     [<Fact>]
     let ``parse <at[1-3](Slide Title)>`` () = // Can't include @ in an identifier name
         let input = @"@[1-3](Slide Title)"
-        test <@ parse input = CodeReference { title = "Slide Title"; startLine = 1; endLine = Some 3 } @>
+        let expected = cr_set 1 3 "Slide Title"
+        testParse input expected
+
+    [<Fact>]
+    let ``parse <at[1-3]()>`` () = // Can't include @ in an identifier name
+        let input = @"@[1-3]()"
+        let expected = cr_se 1 3
+        testParse input expected
+
+    [<Fact>]
+    let ``parse <at[1-3]>`` () = // Can't include @ in an identifier name
+        let input = @"@[1-3]"
+        let expected = cr_se 1 3
+        testParse input expected
+
+    [<Fact>]
+    let ``parse <at[1]()>`` () = // Can't include @ in an identifier name
+        let input = @"@[1]()"
+        let expected = cr_s 1
+        testParse input expected
+
+    [<Fact>]
+    let ``parse <at[1]>`` () = // Can't include @ in an identifier name
+        let input = @"@[1]"
+        let expected = cr_s 1
+        testParse input expected

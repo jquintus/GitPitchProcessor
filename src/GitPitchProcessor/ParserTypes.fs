@@ -7,7 +7,7 @@ type CodeInclude = {
     title: string Option
 }
 type CodeReference = { 
-    title: string
+    title: string Option
     startLine: int
     endLine: int Option 
 }
