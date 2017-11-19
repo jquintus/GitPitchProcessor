@@ -7,6 +7,7 @@
     <Compile Include="Lib.fs" />
     <Compile Include="Arguments.fs" />
     <Compile Include="Input.fs" />
+    <Compile Include="Output.fs" />
     <Compile Include="ParserTypes.fs" />
     <Compile Include="Parser.fs" />
     <Compile Include="Program.fs" />

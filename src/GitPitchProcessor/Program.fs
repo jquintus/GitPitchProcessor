@@ -1,10 +1,12 @@
-﻿// Learn more about F# at http://fsharp.org
-
-open System
-open Arguments
+﻿open Arguments
 
 [<EntryPoint>]
 let main argv =
     let args = parseArgs argv
-    printfn "%A"args
+    let input = Input.fromFile args.inputFile
+    
+    Parser.parseLines input
+    |> Seq.map Parser.toString
+    |> Output.toConsole
+
     0

@@ -99,3 +99,9 @@ let parseLines inputStream =
     let (Input.T lines) = inputStream
     lines
     |> Seq.map parse
+
+let toString = function
+    | Content ct -> ct
+    | Include path -> sprintf ">>> Include=%s" path
+    | CodeInclude c -> sprintf ">>> Code=%s" c.file
+    | CodeReference cr -> sprintf ">>> CR %i" cr.startLine
