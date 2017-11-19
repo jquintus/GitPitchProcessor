@@ -1,8 +1,10 @@
 ﻿// Learn more about F# at http://fsharp.org
 
 open System
+open Arguments
 
 [<EntryPoint>]
 let main argv =
-    printfn "Hello World from F#!"
-    0 // return an integer exit code
+    let args = parseArgs argv
+    printfn "%A"args
+    0
