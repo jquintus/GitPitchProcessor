@@ -105,3 +105,23 @@ let toString = function
     | Include path -> sprintf ">>> Include=%s" path
     | CodeInclude c -> sprintf ">>> Code=%s" c.file
     | CodeReference cr -> sprintf ">>> CR %i" cr.startLine
+
+let rec processLines fileReader pitchLines = 
+    let processInclude path = 
+        let inputStream = fileReader path
+        let newLines = parseLines inputStream
+        processLines fileReader newLines
+        
+    let processCodeInclude cincl = 
+        Seq.singleton (Content cincl.file)
+    
+    let processLine line = 
+        match line with 
+        | Content _     // -> Fall through to the next case
+        | CodeReference _  -> Seq.singleton line
+        | Include path     -> processInclude path
+        | CodeInclude c    -> processCodeInclude c
+
+    pitchLines
+    |> Seq.map processLine
+    |> Seq.collect id

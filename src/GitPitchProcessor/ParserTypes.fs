@@ -12,7 +12,7 @@ type CodeReference = {
     endLine: int Option 
 }
 
-type Document = 
+type PitchLine = 
     | Content of string
     | Include of FilePath
     | CodeInclude of CodeInclude
