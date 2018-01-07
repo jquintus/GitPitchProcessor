@@ -1,6 +1,6 @@
 # F &#35; Type System
 
-![logo](./assets/md/assets/logo.png)
+![logo](assets/logo.png)
 
 ---
 

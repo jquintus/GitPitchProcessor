@@ -32,4 +32,5 @@ let getStringBefore (str:string) (c:char) =
     else
         str
 
-let split (c:char) (s:string) = s.Split(c)
+let splitString (c:char) (s:string) = s.Split(c)
+let joinStrings (seperator : string) (s : string seq)  = String.Join(seperator, s |> Seq.toArray)

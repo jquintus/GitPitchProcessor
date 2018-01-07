@@ -2,21 +2,21 @@
 open Program
 open Input
 open Xunit
-open Swensen.Unquote
-
 
 [<Fact>]
 let ``main --input in.md --output out.md `` () =
     // Assemble
     let argv = 
         "--inputfile TestData\IntegrationTest\Input\Pitchme.md --outputfile ActualOutput.md" 
-        |> split ' '
+        |> splitString ' '
 
     // Act
     main argv |> ignore
 
     // Assert
-    let actual = fromFile "ActualOutput.md"
-    let expected = fromFile "TestData\IntegrationTest\Expected\Pitchme.md"
+    let actual   = fromFile "ActualOutput.md" 
+                   |> asString
+    let expected = fromFile "TestData\IntegrationTest\Expected\Pitchme.md" 
+                   |> asString
 
-    test <@ actual = expected @>
+    Assert.Equal(expected, actual)

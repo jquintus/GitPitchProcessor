@@ -3,6 +3,7 @@
 open System
 open ParserTypes
 open System.Text.RegularExpressions
+open Input
 
 let private (|Prefix|_|) (pattern:string) (str:string) =
     if str.ToLower().StartsWith (pattern.ToLower()) then
@@ -108,8 +109,11 @@ let toString = function
 
 let rec processLines fileReader pitchLines = 
     let processInclude path = 
-        let inputStream = fileReader path
-        let newLines = parseLines inputStream
+        let inputHeader = fromLines2 "---" String.Empty
+        let inputBody = fileReader path
+        let newInput = combine inputHeader inputBody
+
+        let newLines = parseLines newInput
         processLines fileReader newLines
         
     let processCodeInclude cincl = 
