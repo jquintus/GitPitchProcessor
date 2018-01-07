@@ -5,6 +5,8 @@ open ParserTypes
 open System.Text.RegularExpressions
 open Input
 
+let private trimSurroundingQuotes = trimSurrounding '"' 
+
 let private (|Prefix|_|) (pattern:string) (str:string) =
     if str.ToLower().StartsWith (pattern.ToLower()) then
         Some (str.Substring pattern.Length)
@@ -37,7 +39,8 @@ let private codeInclude str =
 
     let lang = findParamValue "lang" paramList
     let title = findParamValue "title" paramList
-
+                |> Option.map trimSurroundingQuotes
+    
     CodeInclude {
         file = path
         lang = lang
@@ -117,12 +120,30 @@ let rec processLines fileReader pitchLines =
         processLines fileReader newLines
         
     let processCodeInclude cincl = 
-        Seq.singleton (Content cincl.file)
+        let lang  = cincl.lang |> Option.defaultValue String.Empty
+        let title = cincl.title |> Option.defaultValue String.Empty
+        let headerLines = fromList
+                              [
+                                "+++"
+                                String.Empty
+                                sprintf "<span class='menu-title slide-title'>%s</span>" title
+                                sprintf "```%s" lang
+                              ]
+
+        let codeLines   = fileReader cincl.file
+        let footerLines = fromLines2 "```" String.Empty
+
+        let allInput = combine3 headerLines codeLines footerLines
+
+        asContent allInput
     
+    let processCodeReference cr =
+        Seq.singleton (Content "Code Reference Goes Here")
+
     let processLine line = 
         match line with 
-        | Content _     // -> Fall through to the next case
-        | CodeReference _  -> Seq.singleton line
+        | Content _        -> Seq.singleton (line)
+        | CodeReference cr -> processCodeReference cr
         | Include path     -> processInclude path
         | CodeInclude c    -> processCodeInclude c
 

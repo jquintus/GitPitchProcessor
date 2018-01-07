@@ -34,3 +34,12 @@ let getStringBefore (str:string) (c:char) =
 
 let splitString (c:char) (s:string) = s.Split(c)
 let joinStrings (seperator : string) (s : string seq)  = String.Join(seperator, s |> Seq.toArray)
+
+let trimSurrounding (c:char) (s:string) = 
+    let len = s.Length
+    if len < 2 then
+        s
+    else if s.[0] = c && s.[len - 1] = c then
+        s.Substring(1, len - 2)
+    else
+        s

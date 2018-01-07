@@ -29,6 +29,10 @@ let combine t1 t2 =
            |> Seq.toList
            |> fromList
 
+let combine3 t1 t2 t3 =
+    let t1' = combine t1 t2
+    combine t1' t3
+
 // Creation from file
 let fromFileWithRootPath rootPath relativeFilePath =
     if Path.IsPathRooted relativeFilePath then
@@ -45,3 +49,7 @@ let getRootPath path =
 let asString t =
     let (T strings) = t
     strings |> joinStrings System.Environment.NewLine
+
+let asContent t =
+    let (T strings) = t
+    strings |> Seq.map Content
