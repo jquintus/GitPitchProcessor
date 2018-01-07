@@ -6,82 +6,18 @@
     <ProjectReference Include="..\GitPitchProcessor\GitPitchProcessor.fsproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="TestData/**" >
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+
     <Compile Include="ParserTests.fs" />
     <Compile Include="IntegrationTests.fs" />
     <Compile Include="Program.fs" />
-    <None Include="TestData\IntegrationTest\Input\src\DiscriminatedUnions\Creation.fs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\src\DiscriminatedUnions\FizzBuzz.fs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\src\DiscriminatedUnions\Option.fs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\src\DiscriminatedUnions\PatternMatching.fs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\src\Records\ConflictingTypes.fs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\src\Records\Creation.fs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\src\Records\StructuralEquality.fs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\src\Records\With.fs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\src\Tuples.fs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\src\TypeInference\Basic.fs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\src\TypeInference\Generic.fs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\src\UnitsOfMeasure.fs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20170810-02" />
     <PackageReference Include="Unquote" Version="4.0.0" />
     <PackageReference Include="xunit" Version="2.2.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TestData\IntegrationTest\Expected\PITCHME.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\md\DiscriminatedUnions.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\md\Records.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\md\Resources.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\md\Tuples.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\md\TypeInference.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\md\TypeSignatures.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\md\UnitsOfMeasure.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\PITCHME.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\IntegrationTest\Input\src\Records\Person.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>
