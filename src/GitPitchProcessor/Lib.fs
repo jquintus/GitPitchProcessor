@@ -31,3 +31,5 @@ let getStringBefore (str:string) (c:char) =
         str.Substring (0, idx)
     else
         str
+
+let split (c:char) (s:string) = s.Split(c)
