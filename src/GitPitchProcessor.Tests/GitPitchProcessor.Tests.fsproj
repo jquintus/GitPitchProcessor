@@ -6,7 +6,12 @@
     <ProjectReference Include="..\GitPitchProcessor\GitPitchProcessor.fsproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="TestData/**" >
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+
     <Compile Include="ParserTests.fs" />
+    <Compile Include="IntegrationTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
