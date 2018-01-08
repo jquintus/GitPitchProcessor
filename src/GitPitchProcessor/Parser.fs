@@ -5,7 +5,7 @@ open ParserTypes
 open System.Text.RegularExpressions
 open Input
 
-let private trimSurroundingQuotes = trimSurrounding '"' 
+let private trimSurroundingQuotes = trimSurrounding '"'
 
 let private (|Prefix|_|) (pattern:string) (str:string) =
     if str.ToLower().StartsWith (pattern.ToLower()) then
@@ -40,7 +40,7 @@ let private codeInclude str =
     let lang = findParamValue "lang" paramList
     let title = findParamValue "title" paramList
                 |> Option.map trimSurroundingQuotes
-    
+
     CodeInclude {
         file = path
         lang = lang
@@ -68,7 +68,7 @@ let private (|CR|_|) (str:string) =
                 @"^@\s*           " +  // Line starts with a @
                 @"\[\s*           " +  // Opening [
                 @"(?<start>\d+)   " +  // Starting line number
-                @"\s*             " + 
+                @"\s*             " +
                 @"(               " +  // Opening optional number
                 @"    -\s*        " +  // Optional dash
                 @"    (?<end>\d+) " +  // Optional ending line number
@@ -99,7 +99,7 @@ let parse (line:string) =
     | CR cr -> cr
     | _ ->   Content line
 
-let parseLines inputStream = 
+let parseLines inputStream =
     let (Input.T lines) = inputStream
     lines
     |> Seq.map parse
@@ -110,16 +110,16 @@ let toString = function
     | CodeInclude c -> sprintf ">>> Code=%s" c.file
     | CodeReference cr -> sprintf ">>> CR %i" cr.startLine
 
-let rec processLines fileReader pitchLines = 
-    let processInclude path = 
+let rec processLines fileReader pitchLines =
+    let processInclude path =
         let inputHeader = fromLines2 "---" String.Empty
         let inputBody = fileReader path
         let newInput = combine inputHeader inputBody
 
         let newLines = parseLines newInput
         processLines fileReader newLines
-        
-    let processCodeInclude cincl = 
+
+    let processCodeInclude cincl =
         let lang  = cincl.lang |> Option.defaultValue String.Empty
         let title = cincl.title |> Option.defaultValue String.Empty
         let headerLines = fromList
@@ -136,13 +136,25 @@ let rec processLines fileReader pitchLines =
         let allInput = combine3 headerLines codeLines footerLines
 
         asContent allInput
-    
-    let processCodeReference cr =
-        Seq.singleton (Content "Code Reference Goes Here")
 
-    let processLine line = 
-        match line with 
-        | Content _        -> Seq.singleton (line)
+    let processCodeReference cr =
+        let range = match cr.endLine with
+                    | Some endLine -> sprintf "%i-%i" cr.startLine endLine
+                    | None -> sprintf "%i" cr.startLine
+        let title = cr.title |> Option.defaultValue String.Empty
+
+        let line = sprintf "<span class=\"code-presenting-annotation fragment current-only\" data-code-focus=\"%s\">%s</span>"
+                    range
+                    title
+
+        Content line |> Seq.singleton
+
+    let processContent line =
+        line |> Content |> Seq.singleton
+
+    let processLine line =
+        match line with
+        | Content ct       -> processContent ct
         | CodeReference cr -> processCodeReference cr
         | Include path     -> processInclude path
         | CodeInclude c    -> processCodeInclude c
